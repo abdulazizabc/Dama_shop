@@ -5,6 +5,7 @@ target/
 !**/src/test/**/target/
 
 ### STS ###
+src/main/resources/*.yaml
 .apt_generated
 .classpath
 .factorypath
