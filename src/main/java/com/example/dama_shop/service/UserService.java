@@ -14,6 +14,7 @@ public interface UserService {
 
     List<UserDTO> findAll();
     UserDTO save(UserRequestDTO request);
+    User save(User user);
     Optional<UserDTO> findById(Long id);
     Optional<UserDTO> findByUsername(String username);
     void deleteById(Long id);

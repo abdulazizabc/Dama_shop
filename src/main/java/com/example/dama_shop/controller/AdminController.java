@@ -26,8 +26,8 @@ public class AdminController {
     }
 
     @PostMapping("/save-user")
-    public ResponseEntity<UserDTO> save(@RequestBody UserRequestDTO request) {
-        return ResponseEntity.ok(userService.save(request));
+    public ResponseEntity<User> save(@RequestBody User user) {
+        return ResponseEntity.ok(userService.save(user));
     }
 
     @GetMapping("/getAllOrders")
