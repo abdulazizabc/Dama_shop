@@ -4,7 +4,6 @@ import com.example.dama_shop.dto.UserDTO;
 import com.example.dama_shop.dto.requests.LoginRequest;
 import com.example.dama_shop.dto.requests.UserRequestDTO;
 import com.example.dama_shop.model.User;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
