@@ -19,6 +19,4 @@ public interface OrderService {
     Optional<OrderDTO> getOrderById(Long id);
     List<OrderDTO> getAllOrders();
     List<OrderDTO> myOrders();
-
-
 }

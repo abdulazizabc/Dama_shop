@@ -34,7 +34,7 @@ public class OrderServiceImpl implements OrderService {
         User user = userRepository.findById(dto.getUser_id())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        Order order = orderMapper.toEntity(dto, user);
+        Order order = orderMapper.toEntity(dto,user);
         Order saved = orderRepository.save(order);
         return orderMapper.toDto(saved);
     }

@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,23 +24,31 @@ public class UserController {
     }
 
     @GetMapping("/user/{id}")
-    public ResponseEntity<Optional<UserDTO>> findById(@PathVariable Long id) {
-        return ResponseEntity.ok(userService.findById(id));
+    public ResponseEntity<UserDTO> findById(@PathVariable Long id) {
+        return userService.findById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/find-user/{username}")
-    public ResponseEntity<Optional<UserDTO>> findByUsername(@PathVariable String username) {
-        return ResponseEntity.ok(userService.findByUsername(username));
+
+    @GetMapping("/by-username/{username}")
+    public ResponseEntity<UserDTO> findByUsername(@PathVariable String username) {
+        return userService.findByUsername(username)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
+
 
     @DeleteMapping("/delete-user/{id}")
-    public void deleteById(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteById(@PathVariable Long id) {
         userService.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
+
 
     @PutMapping("/update-user-info/{id}")
     public ResponseEntity<UserDTO> updateUserInfo(@PathVariable Long id,
-                                                  @RequestBody UserDTO userDTO) {
+                                                  @Valid @RequestBody UserDTO userDTO) {
         return ResponseEntity.ok(userService.updateUserInfo(id, userDTO));
     }
 

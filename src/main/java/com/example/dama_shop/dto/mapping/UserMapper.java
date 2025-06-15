@@ -1,57 +1,37 @@
 package com.example.dama_shop.dto.mapping;
 
-import com.example.dama_shop.dto.OrderDTO;
 import com.example.dama_shop.dto.UserDTO;
 import com.example.dama_shop.dto.requests.UserRequestDTO;
 import com.example.dama_shop.model.User;
 import com.example.dama_shop.model.enums.Role;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.Named;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
-@Component
-@RequiredArgsConstructor
-public class UserMapper {
+@Mapper(componentModel = "spring")
+public interface UserMapper {
 
-    private final OrderMapper orderMapper;
+    @Mapping(source = "role", target = "role", qualifiedByName = "roleToString")
+    @Mapping(source = "orders", target = "orders")
+    UserDTO toDTO(User user);
 
-    public UserDTO toDTO(User user) {
-        UserDTO userDTO = new UserDTO();
+    @Mapping(source = "password", target = "password")
+    @Mapping(source = "role", target = "role", qualifiedByName = "stringToRole")
+    @Mapping(target = "orders", ignore = true)
+    User toEntity(UserRequestDTO dto);
 
-        userDTO.username = user.getUsername();
-        userDTO.age = user.getAge();
-        userDTO.role = String.valueOf(user.getRole());
+    List<UserDTO> toDtoList(List<User> users);
 
-        if (user.getOrders() != null) {
-
-            List<OrderDTO> orderDTOs = user.getOrders().stream()
-                    .map(orderMapper::toDto)
-                    .collect(Collectors.toList());
-
-            userDTO.setOrders(orderDTOs);
-        }
-
-        return userDTO;
+    @Named("roleToString")
+    static String roleToString(Enum<?> role) {
+        return role.name();
     }
 
-    public User toEntity(UserRequestDTO dto) {
-        User user = new User();
-
-        user.setUsername(dto.getUsername());
-        user.setAge(dto.getAge());
-        user.setPassword(dto.getPassword());
-        user.setRole(Role.valueOf(dto.getRole()));
-
-
-        if (dto.getOrders() != null) {
-            user.setOrders(dto.getOrders()
-                    .stream()
-                    .map(orderDTO -> orderMapper.toEntity(orderDTO, user))
-                    .collect(Collectors.toList()));
-        }
-
-        return user;
+    @Named("stringToRole")
+    static Role stringToRole(String role) {
+        return Role.valueOf(role);
     }
+
 }

@@ -1,27 +1,24 @@
 package com.example.dama_shop.dto;
 
 import lombok.Data;
-import org.jetbrains.annotations.NotNull;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
 
-
+import javax.validation.Valid;
+import javax.validation.constraints.*;
 import java.util.List;
 
 @Data
 public class UserDTO {
 
-    @NotBlank
-    public String username;
+    @NotBlank(message = "Username must not be blank")
+    private String username;
 
-    @Min(0)
-    @Max(120)
-    public int age;
+    @Min(value = 0, message = "Age must be >= 0")
+    @Max(value = 120, message = "Age must be <= 120")
+    private int age;
 
-    @NotBlank
-    public String role;
+    @NotBlank(message = "Role must not be blank")
+    private String role;
 
-    List<OrderDTO> orders;
+    @Valid
+    private List<@NotNull OrderDTO> orders;
 }
