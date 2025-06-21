@@ -1,7 +1,6 @@
 package com.example.dama_shop.controller;
 
 import com.example.dama_shop.dto.response.ProductResponse;
-import com.example.dama_shop.model.Product;
 import com.example.dama_shop.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

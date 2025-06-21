@@ -1,6 +1,7 @@
 package com.example.dama_shop.config;
 
 import com.example.dama_shop.model.User;
+import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -31,6 +32,10 @@ public class MyUserDetails implements UserDetails {
         return user.getUsername();
     }
 
+    public Long getId() {
+        return user.getId();
+    }
+
     @Override
     public boolean isAccountNonExpired() {
         return true;
@@ -51,7 +56,4 @@ public class MyUserDetails implements UserDetails {
         return true;
     }
 
-    public User getUser() {
-        return user;
-    }
 }

@@ -2,11 +2,11 @@ package com.example.dama_shop.controller;
 
 import com.example.dama_shop.dto.OrderDTO;
 import com.example.dama_shop.dto.UserDTO;
-import com.example.dama_shop.dto.requests.UserRequestDTO;
 import com.example.dama_shop.model.User;
 import com.example.dama_shop.service.OrderService;
 import com.example.dama_shop.service.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,6 +15,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/admin")
 @RequiredArgsConstructor
+@Slf4j
 public class AdminController {
 
     private final UserService userService;
@@ -30,14 +31,20 @@ public class AdminController {
         return ResponseEntity.ok(userService.save(user));
     }
 
+    @PostMapping("/update-user-info")
+    public ResponseEntity<UserDTO> updateUserInfo(Long userId,@RequestBody UserDTO userDTO) {
+        return ResponseEntity.ok(userService.updateUserInfoByAdmin(userId,userDTO));
+    }
+
+    @DeleteMapping("/delete-user/{id}")
+    public ResponseEntity<Void> deleteById(@PathVariable Long id) {
+        userService.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
+
     @GetMapping("/getAllOrders")
     public ResponseEntity<List<OrderDTO>> getAllOrders(){
         return ResponseEntity.ok(orderService.getAllOrders());
-    }
-
-    @GetMapping("/orders/{userId}")
-    public ResponseEntity<List<OrderDTO>> getOrdersByUser(@PathVariable Long userId) {
-        return ResponseEntity.ok(orderService.getOrdersByUserId(userId));
     }
 
 }

@@ -5,6 +5,7 @@ import com.example.dama_shop.dto.requests.LoginRequest;
 import com.example.dama_shop.dto.requests.UserRequestDTO;
 import com.example.dama_shop.model.User;
 
+import java.nio.file.AccessDeniedException;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,12 +13,12 @@ import java.util.Optional;
 public interface UserService {
 
     List<UserDTO> findAll();
-    UserDTO save(UserRequestDTO request);
-    User save(User user);
-    Optional<UserDTO> findById(Long id);
-    Optional<UserDTO> findByUsername(String username);
-    void deleteById(Long id);
-    UserDTO updateUserInfo(Long id,UserDTO userDTO);
+    UserDTO findById(Long id);
+    UserDTO findByUsername(String username);
+    UserDTO updateMyProfile(UserDTO userDTO);
 
-    String verify(LoginRequest request);
+    //ADMIN
+    User save(User user);
+    void deleteById(Long id);
+    UserDTO updateUserInfoByAdmin(Long userId,UserDTO dto);
 }

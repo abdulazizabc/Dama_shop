@@ -7,16 +7,16 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 
+import java.nio.file.AccessDeniedException;
 import java.util.List;
 import java.util.Optional;
 
 public interface OrderService {
 
     OrderDTO createOrder(OrderDTO dto);
-    List<OrderDTO> getOrdersByUserId(Long userId);
     OrderDTO updateOrderStatusById(Long orderId, OrderStatus status);
-    void deleteOrder(Long id);
-    Optional<OrderDTO> getOrderById(Long id);
+    void deleteOrder(Long id) throws AccessDeniedException;
+    OrderDTO getMyOrderById(Long id);
     List<OrderDTO> getAllOrders();
-    List<OrderDTO> myOrders();
+    List<OrderDTO> getMyOrders();
 }

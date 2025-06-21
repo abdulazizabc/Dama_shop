@@ -5,6 +5,7 @@ import com.example.dama_shop.dto.response.ProductResponse;
 import com.example.dama_shop.model.enums.ProductCategory;
 import com.example.dama_shop.service.ProductService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,6 +15,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/products")
 @RequiredArgsConstructor
+@Slf4j
 public class ProductController {
     private final ProductService productService;
 

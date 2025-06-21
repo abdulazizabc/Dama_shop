@@ -8,14 +8,15 @@ import com.example.dama_shop.model.enums.ProductCategory;
 import com.example.dama_shop.repository.ProductRepository;
 import com.example.dama_shop.service.ProductService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
@@ -31,13 +32,17 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductResponse getProductById(Long id) {
+        log.info("Get product by id: {}", id);
 
-        Product product = productRepository.findById(id).orElse(null);
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Product not found"));
+        log.info("Product found: {}", product);
         return productMapper.toResponse(product);
     }
 
     @Override
     public List<ProductResponse> getProductsByCategory(ProductCategory category) {
+        log.info("Get products by category: {}", category);
         return productRepository.findByCategory(category)
                 .stream()
                 .map(productMapper::toResponse)
@@ -53,11 +58,13 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductResponse updateProduct(Long id, ProductRequest request) {
+        log.info("Update product: {}", request);
         if (!productRepository.existsById(id)) {
             throw new RuntimeException("Product with id " + id + " does not exist");
         }
         Product product = productMapper.toEntity(request);
         product.setId(id);
+        log.info("save updated product: {}", product);
         Product updatedProduct = productRepository.save(product);
 
         return productMapper.toResponse(updatedProduct);
@@ -66,6 +73,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void deleteProduct(Long id) {
+        log.info("Delete product: {}", id);
         if (!productRepository.existsById(id)) {
             throw new RuntimeException("Product not found with id: " + id);
         }

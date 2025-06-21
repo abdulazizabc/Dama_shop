@@ -1,17 +1,14 @@
 package com.example.dama_shop.controller;
 
 import com.example.dama_shop.dto.OrderDTO;
-import com.example.dama_shop.model.Order;
 import com.example.dama_shop.model.enums.OrderStatus;
 import com.example.dama_shop.service.OrderService;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.query.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.nio.file.AccessDeniedException;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/orders")
@@ -34,18 +31,18 @@ public class OrderController {
     }
 
     @DeleteMapping("/delete-order/{orderId}")
-    public void deleteOrderById(@PathVariable Long orderId) {
+    public void deleteOrderById(@PathVariable Long orderId) throws AccessDeniedException {
         orderService.deleteOrder(orderId);
     }
 
     @GetMapping("/orderById/{id}")
-    public ResponseEntity<Optional<OrderDTO>> getOrderById(@PathVariable Long id){
-        return ResponseEntity.ok(orderService.getOrderById(id));
+    public ResponseEntity<OrderDTO> getOrderById(@PathVariable Long id){
+        return ResponseEntity.ok(orderService.getMyOrderById(id));
     }
 
     @GetMapping("/my-orders")
     public List<OrderDTO> myOrders(){
-        return orderService.myOrders();
+        return orderService.getMyOrders();
     }
 
 }
