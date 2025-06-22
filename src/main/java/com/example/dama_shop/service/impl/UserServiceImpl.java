@@ -85,7 +85,7 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findById(id)
                         .orElseThrow(() -> {
                             log.warn("User does not exist");
-                            return new RuntimeException("User does not exist");
+                            return new NotFoundException("User does not exist");
                         });
 
         userRepository.delete(user);
