@@ -60,7 +60,7 @@ public class ProductServiceImpl implements ProductService {
     public ProductResponse updateProduct(Long id, ProductRequest request) {
         log.info("Update product: {}", request);
         if (!productRepository.existsById(id)) {
-            throw new RuntimeException("Product with id " + id + " does not exist");
+            throw new NotFoundException("Product with id " + id + " not found");
         }
         Product product = productMapper.toEntity(request);
         product.setId(id);
