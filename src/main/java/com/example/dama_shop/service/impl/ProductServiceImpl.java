@@ -35,7 +35,7 @@ public class ProductServiceImpl implements ProductService {
         log.info("Get product by id: {}", id);
 
         Product product = productRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Product not found"));
+                .orElseThrow(() -> new ForbiddenException("Product not found"));
         log.info("Product found: {}", product);
         return productMapper.toResponse(product);
     }
