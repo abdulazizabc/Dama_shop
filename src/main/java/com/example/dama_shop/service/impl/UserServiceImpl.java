@@ -73,7 +73,7 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> {
                     log.warn("User does not exist");
-                    return new RuntimeException("User does not exist");
+                    return new NotFoundException("User does not exist");
                 });
 
         return userMapper.toDTO(user);
