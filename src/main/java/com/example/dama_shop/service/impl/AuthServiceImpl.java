@@ -1,17 +1,17 @@
 package com.example.dama_shop.service.impl;
 
-import com.example.dama_shop.config.MyUserDetails;
+import com.example.dama_shop.exception.ForbiddenException;
+import com.example.dama_shop.security.model.MyUserDetails;
 import com.example.dama_shop.dto.UserDTO;
 import com.example.dama_shop.dto.mapping.UserMapper;
 import com.example.dama_shop.dto.requests.LoginRequest;
 import com.example.dama_shop.dto.requests.UserRequestDTO;
-import com.example.dama_shop.jwt.JWTService;
+import com.example.dama_shop.security.jwt.JWTService;
 import com.example.dama_shop.model.User;
 import com.example.dama_shop.repository.UserRepository;
 import com.example.dama_shop.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -50,13 +50,13 @@ public class AuthServiceImpl implements AuthService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         if (authentication == null || !authentication.isAuthenticated()) {
-            throw new AccessDeniedException("Пользователь не аутентифицирован");
+            throw new ForbiddenException("unauthorized");
         }
 
         Object principal = authentication.getPrincipal();
 
         if (!(principal instanceof MyUserDetails)) {
-            throw new AccessDeniedException("Недопустимый тип principal");
+            throw new ForbiddenException("Wrong principals");
         }
 
         return ((MyUserDetails) principal).getId();

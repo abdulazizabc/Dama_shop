@@ -1,6 +1,6 @@
-package com.example.dama_shop.config;
+package com.example.dama_shop.security.config;
 
-import com.example.dama_shop.jwt.JwtFilter;
+import com.example.dama_shop.security.jwt.JwtFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -17,11 +17,6 @@ public class UserController {
     private UserService userService;
 
 
-    @GetMapping("/all-users")
-    public ResponseEntity<List<UserDTO>> findAll() {
-        return ResponseEntity.ok(userService.findAll());
-    }
-
     @GetMapping("/user/{id}")
     public ResponseEntity<UserDTO> findById(@PathVariable Long id) {
         return ResponseEntity.ok(userService.findById(id));

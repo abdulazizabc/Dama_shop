@@ -1,5 +1,8 @@
 package com.example.dama_shop.service.impl;
 
+import com.example.dama_shop.exception.ForbiddenException;
+import com.example.dama_shop.exception.NotFoundException;
+import com.example.dama_shop.security.model.MyUserDetails;
 import com.example.dama_shop.dto.OrderDTO;
 import com.example.dama_shop.dto.mapping.OrderMapper;
 import com.example.dama_shop.model.Order;
@@ -13,9 +16,11 @@ import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import org.springframework.security.access.AccessDeniedException;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -30,20 +35,23 @@ public class OrderServiceImpl implements OrderService {
     private UserRepository userRepository;
     private OrderMapper orderMapper;
 
-    private Long safeGetCurrentUserId() {
-        try {
-            return authService.getCurrentUserId();
-        } catch (AccessDeniedException e) {
-            log.warn("Access denied");
-            throw new RuntimeException("Access denied");
+    public Long safeGetCurrentUserId() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        if (auth == null || !auth.isAuthenticated() || auth instanceof AnonymousAuthenticationToken) {
+            throw new ForbiddenException("You are not authenticated");
         }
+
+        MyUserDetails user = (MyUserDetails) auth.getPrincipal();
+        return user.getId();
     }
+
 
     private Order findOrderOrThrow(Long orderId) {
         return orderRepository.findById(orderId)
                 .orElseThrow(() -> {
                     log.warn("Order with id={} not found", orderId);
-                    return new RuntimeException("Order not found");
+                    return new NotFoundException("Order with id= {} not found", orderId);
                 });
     }
 
@@ -52,7 +60,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public OrderDTO createOrder(OrderDTO dto) {
         User user = userRepository.findById(authService.getCurrentUserId())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new NotFoundException("User with id= " + authService.getCurrentUserId() + " not found"));
 
         log.info("Create Order of user: {}", user.getUsername());
 
@@ -87,7 +95,7 @@ public class OrderServiceImpl implements OrderService {
 
         if (!Objects.equals(order.getUser().getId(), currentUserId)){
             log.warn("Order with id={} not owned by user with id {}", order.getId(), currentUserId);
-            throw new RuntimeException("Order not owned by user with id " + order.getId());
+            throw new ForbiddenException("Order with id= " + id + " not owned by user with id " + currentUserId);
         }
 
         orderRepository.delete(order);
@@ -100,7 +108,7 @@ public class OrderServiceImpl implements OrderService {
 
         if (!Objects.equals(order.getUser().getId(), safeGetCurrentUserId())){
             log.warn("Order with id = {} not owned by user with id {}", order.getId(), safeGetCurrentUserId());
-            throw new RuntimeException("Order not owned by user with id " + order.getId());
+            throw new RuntimeException();
         }
         return orderMapper.toDto(order);
     }
@@ -124,7 +132,7 @@ public class OrderServiceImpl implements OrderService {
 
         if (!userRepository.existsById(currentUserId)) {
             log.warn("User with id {} not found", currentUserId);
-            throw new RuntimeException("User not found");
+            throw new NotFoundException("User with id " + currentUserId + " not found");
         }
 
 

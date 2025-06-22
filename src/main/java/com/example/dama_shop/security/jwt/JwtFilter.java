@@ -1,4 +1,4 @@
-package com.example.dama_shop.jwt;
+package com.example.dama_shop.security.jwt;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

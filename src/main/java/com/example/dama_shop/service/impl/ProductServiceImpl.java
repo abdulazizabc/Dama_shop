@@ -3,6 +3,8 @@ package com.example.dama_shop.service.impl;
 import com.example.dama_shop.dto.mapping.ProductMapper;
 import com.example.dama_shop.dto.requests.ProductRequest;
 import com.example.dama_shop.dto.response.ProductResponse;
+import com.example.dama_shop.exception.ForbiddenException;
+import com.example.dama_shop.exception.NotFoundException;
 import com.example.dama_shop.model.Product;
 import com.example.dama_shop.model.enums.ProductCategory;
 import com.example.dama_shop.repository.ProductRepository;
@@ -69,8 +71,6 @@ public class ProductServiceImpl implements ProductService {
 
         return productMapper.toResponse(updatedProduct);
     }
-
-
     @Override
     public void deleteProduct(Long id) {
         log.info("Delete product: {}", id);

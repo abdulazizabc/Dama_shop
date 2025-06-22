@@ -1,8 +1,8 @@
-package com.example.dama_shop.service;
+package com.example.dama_shop.security.service;
 
-import com.example.dama_shop.config.MyUserDetails;
 import com.example.dama_shop.model.User;
 import com.example.dama_shop.repository.UserRepository;
+import com.example.dama_shop.security.model.MyUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

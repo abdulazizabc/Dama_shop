@@ -2,6 +2,7 @@ package com.example.dama_shop.service.impl;
 
 import com.example.dama_shop.dto.UserDTO;
 import com.example.dama_shop.dto.mapping.UserMapper;
+import com.example.dama_shop.exception.NotFoundException;
 import com.example.dama_shop.model.User;
 import com.example.dama_shop.model.enums.Role;
 import com.example.dama_shop.repository.UserRepository;
@@ -97,7 +98,7 @@ public class UserServiceImpl implements UserService {
     public UserDTO updateMyProfile(UserDTO userDTO) {
         Long currentUserId = authService.getCurrentUserId();
         User user = userRepository.findById(currentUserId)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new NotFoundException("User does not exist"));
 
         user.setUsername(userDTO.getUsername());
         user.setAge(userDTO.getAge());
@@ -112,7 +113,7 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findById(userId)
                         .orElseThrow(() -> {
                             log.warn("User does not exist");
-                            return new RuntimeException("User does not exist");
+                            return new NotFoundException("User does not exist");
                         });
 
         user.setUsername(userDTO.getUsername());
