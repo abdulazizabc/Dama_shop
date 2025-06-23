@@ -1,8 +1,11 @@
 package com.example.dama_shop.service.impl;
 
+import com.example.dama_shop.dto.OrderDTO;
 import com.example.dama_shop.dto.UserDTO;
+import com.example.dama_shop.dto.mapping.OrderMapper;
 import com.example.dama_shop.dto.mapping.UserMapper;
 import com.example.dama_shop.exception.NotFoundException;
+import com.example.dama_shop.model.Order;
 import com.example.dama_shop.model.User;
 import com.example.dama_shop.model.enums.Role;
 import com.example.dama_shop.repository.UserRepository;
@@ -15,6 +18,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -27,6 +31,7 @@ public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
     private final AuthService authService;
+    private final OrderMapper orderMapper;
 
 
     public static Role safeParseRole(String input) {
@@ -40,6 +45,7 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
+    @PreAuthorize("hasRole('ADMIN')")
     public List<UserDTO> findAll() {
         return userRepository.findAll()
                 .stream()
@@ -53,6 +59,7 @@ public class UserServiceImpl implements UserService {
             log.warn("User already exists");
             throw new RuntimeException("User already exists");
         }
+        user.setOrders(List.of());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
@@ -100,7 +107,12 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findById(currentUserId)
                 .orElseThrow(() -> new NotFoundException("User does not exist"));
 
+        List<Order> orders = new ArrayList<>();
+        for (OrderDTO orderDTO : userDTO.getOrders()) {
+            orders.add(orderMapper.toEntity(orderDTO, user));
+        }
         user.setUsername(userDTO.getUsername());
+        user.setOrders(orders);
         user.setAge(userDTO.getAge());
 
         return userMapper.toDTO(userRepository.save(user));
