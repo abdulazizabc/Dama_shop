@@ -1,12 +1,15 @@
 package com.example.dama_shop.dto.response;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
+
+import javax.validation.constraints.NotBlank;
 
 @Data
 public class ErrorResponse {
 
+    @NotBlank
     private String message;
+
     private int status;
     private String timestamp;
 

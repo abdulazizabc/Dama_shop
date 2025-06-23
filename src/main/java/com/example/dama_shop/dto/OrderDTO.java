@@ -9,13 +9,17 @@ import javax.validation.constraints.NotNull;
 
 @Data
 public class OrderDTO {
+
     @NotNull
     private Long user_id;
+
     @NotBlank
     private String orderName;
-    @Min(0)
-    @Max(1_000_000_000)
+
+    @Min(value = 0)
+    @Max(value = 1_000_000_000)
     private double price;
+
     @NotBlank
     private String status;
 
