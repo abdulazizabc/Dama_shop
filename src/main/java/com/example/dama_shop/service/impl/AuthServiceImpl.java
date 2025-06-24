@@ -3,7 +3,7 @@ package com.example.dama_shop.service.impl;
 import com.example.dama_shop.exception.ForbiddenException;
 import com.example.dama_shop.exception.NotFoundException;
 import com.example.dama_shop.security.model.MyUserDetails;
-import com.example.dama_shop.dto.UserDTO;
+import com.example.dama_shop.dto.dto.UserDTO;
 import com.example.dama_shop.dto.mapping.UserMapper;
 import com.example.dama_shop.dto.requests.LoginRequest;
 import com.example.dama_shop.dto.requests.UserRequestDTO;

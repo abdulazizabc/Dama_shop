@@ -1,6 +1,6 @@
 package com.example.dama_shop.service;
 
-import com.example.dama_shop.dto.UserDTO;
+import com.example.dama_shop.dto.dto.UserDTO;
 import com.example.dama_shop.dto.requests.LoginRequest;
 import com.example.dama_shop.dto.requests.UserRequestDTO;
 import com.example.dama_shop.model.User;

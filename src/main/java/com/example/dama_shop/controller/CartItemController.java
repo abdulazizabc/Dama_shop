@@ -1,6 +1,6 @@
 package com.example.dama_shop.controller;
 
-import com.example.dama_shop.dto.CartItemDTO;
+import com.example.dama_shop.dto.dto.CartItemDTO;
 import com.example.dama_shop.dto.response.CartResponse;
 import com.example.dama_shop.service.CartService;
 import lombok.RequiredArgsConstructor;
