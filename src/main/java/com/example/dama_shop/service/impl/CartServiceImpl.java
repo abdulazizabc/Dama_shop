@@ -1,8 +1,7 @@
 package com.example.dama_shop.service.impl;
 
-import com.example.dama_shop.dto.CartItemDTO;
+import com.example.dama_shop.dto.dto.CartItemDTO;
 import com.example.dama_shop.dto.mapping.CartItemMapper;
-import com.example.dama_shop.dto.response.CartItemResponse;
 import com.example.dama_shop.dto.response.CartResponse;
 import com.example.dama_shop.exception.NotFoundException;
 import com.example.dama_shop.model.CartItem;
@@ -34,7 +33,7 @@ public class CartServiceImpl implements CartService {
     public void addToCart(CartItemDTO cartItemDTO) {
         User user = authService.getCurrentUser();
 
-        Product product = productRepository.findById(cartItemDTO.getProductId())
+        Product product = productRepository.findByProductName(cartItemDTO.getProductName())
                 .orElseThrow(() -> {
                     log.error("Product not found");
                     return new NotFoundException("Product not found");
@@ -78,12 +77,12 @@ public class CartServiceImpl implements CartService {
         User user = authService.getCurrentUser();
 
         List<CartItem> cartItems = cartItemRepository.findCartItemsByUser(user);
-        List<CartItemResponse> items = cartItems
+        List<CartItemDTO> items = cartItems
                 .stream()
-                .map(cartItemMapper::toCartItemResponse)
+                .map(cartItemMapper::toCartItemDTO)
                 .toList();
 
-        double totalPrice = items.stream().mapToDouble(CartItemResponse::getTotalPrice).sum();
+        double totalPrice = items.stream().mapToDouble(CartItemDTO::getTotalPrice).sum();
         return new CartResponse(items, totalPrice);
     }
 
