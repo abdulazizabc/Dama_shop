@@ -1,9 +1,9 @@
-package com.example.dama_shop.dto.response;
+package com.example.dama_shop.dto.dto;
 
 import lombok.Data;
 
 @Data
-public class CartItemResponse {
+public class CartItemDTO {
 
     private String productName;
 
