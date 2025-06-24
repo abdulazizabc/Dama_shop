@@ -1,6 +1,6 @@
 package com.example.dama_shop.dto.requests;
 
-import com.example.dama_shop.dto.OrderDTO;
+import com.example.dama_shop.dto.dto.OrderDTO;
 import lombok.Data;
 
 import javax.validation.constraints.Max;

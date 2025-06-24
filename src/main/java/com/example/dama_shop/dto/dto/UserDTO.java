@@ -1,10 +1,8 @@
-package com.example.dama_shop.dto;
+package com.example.dama_shop.dto.dto;
 
 import lombok.Data;
 
-import javax.validation.Valid;
 import javax.validation.constraints.*;
-import java.util.List;
 
 @Data
 public class UserDTO {
@@ -18,7 +16,4 @@ public class UserDTO {
 
     @NotBlank(message = "Role must not be blank")
     private String role;
-
-    @Valid
-    private List<@NotNull OrderDTO> orders;
 }

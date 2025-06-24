@@ -1,8 +1,6 @@
 package com.example.dama_shop.service.impl;
 
-import com.example.dama_shop.dto.OrderDTO;
-import com.example.dama_shop.dto.UserDTO;
-import com.example.dama_shop.dto.mapping.OrderMapper;
+import com.example.dama_shop.dto.dto.UserDTO;
 import com.example.dama_shop.dto.mapping.UserMapper;
 import com.example.dama_shop.exception.NotFoundException;
 import com.example.dama_shop.model.Order;
@@ -31,7 +29,6 @@ public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
     private final AuthService authService;
-    private final OrderMapper orderMapper;
 
 
     public static Role safeParseRole(String input) {
@@ -108,9 +105,6 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new NotFoundException("User does not exist"));
 
         List<Order> orders = new ArrayList<>();
-        for (OrderDTO orderDTO : userDTO.getOrders()) {
-            orders.add(orderMapper.toEntity(orderDTO, user));
-        }
         user.setUsername(userDTO.getUsername());
         user.setOrders(orders);
         user.setAge(userDTO.getAge());
