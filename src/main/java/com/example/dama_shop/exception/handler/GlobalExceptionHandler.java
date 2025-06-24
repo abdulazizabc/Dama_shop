@@ -1,6 +1,6 @@
 package com.example.dama_shop.exception.handler;
 
-import com.example.dama_shop.dto.response.ErrorResponse;
+import com.example.dama_shop.exception.response.ErrorResponse;
 import com.example.dama_shop.exception.ForbiddenException;
 import com.example.dama_shop.exception.NotFoundException;
 import lombok.extern.slf4j.Slf4j;
