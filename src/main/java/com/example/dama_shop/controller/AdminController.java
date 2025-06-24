@@ -1,9 +1,7 @@
 package com.example.dama_shop.controller;
 
-import com.example.dama_shop.dto.OrderDTO;
-import com.example.dama_shop.dto.UserDTO;
+import com.example.dama_shop.dto.dto.UserDTO;
 import com.example.dama_shop.model.User;
-import com.example.dama_shop.service.OrderService;
 import com.example.dama_shop.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +19,6 @@ import java.util.List;
 public class AdminController {
 
     private final UserService userService;
-    private final OrderService orderService;
 
     @GetMapping("/all-users")
     public ResponseEntity<List<UserDTO>> findAll() {
@@ -42,11 +39,6 @@ public class AdminController {
     public ResponseEntity<Void> deleteById(@PathVariable Long id) {
         userService.deleteById(id);
         return ResponseEntity.noContent().build();
-    }
-
-    @GetMapping("/getAllOrders")
-    public ResponseEntity<List<OrderDTO>> getAllOrders(){
-        return ResponseEntity.ok(orderService.getAllOrders());
     }
 
 }
