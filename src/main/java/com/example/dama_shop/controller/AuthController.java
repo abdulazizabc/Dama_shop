@@ -1,9 +1,9 @@
 package com.example.dama_shop.controller;
 
-import com.example.dama_shop.dto.UserDTO;
+import com.example.dama_shop.dto.dto.UserDTO;
 import com.example.dama_shop.dto.requests.LoginRequest;
 import com.example.dama_shop.dto.requests.UserRequestDTO;
-import com.example.dama_shop.dto.response.JwtResponse;
+import com.example.dama_shop.security.jwt.response.JwtResponse;
 import com.example.dama_shop.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
