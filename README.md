@@ -273,7 +273,6 @@ ENTRYPOINT ["java","-jar","/app.jar"]
 - Добавить Docker Compose (app + postgres) для простого локального старта
 - Хранение секретов через Vault/Kubernetes Secrets
 - Добавить role-based access control более явно и тесты для security
-- Миграции через Flyway
 
 ---
 
