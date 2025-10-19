@@ -21,10 +21,13 @@ public class OrderItem {
     @JsonIgnore
     private Order order;
 
+    @Column(nullable = false)
     private String productName;
 
+    @Column(nullable = false)
     private double productPrice;
 
+    @Column(nullable = false)
     private int quantity;
 }
 

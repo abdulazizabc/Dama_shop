@@ -1,0 +1,20 @@
+databaseChangeLog:
+  - changeSet:
+      id: insert-admin
+      author: abdulazizabc
+      changes:
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: username
+                  value: admin
+              - column:
+                  name: password
+                  value: $2y$12$urrk/w8yaKIXR4oze0BvkeMsJJHtSP82iDs8pspiCbERbRYXStY56 //admin2025
+              - column:
+                  name: age
+                  valueNumeric: 30
+              - column:
+                  name: role
+                  value: ADMIN

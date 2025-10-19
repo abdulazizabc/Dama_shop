@@ -27,6 +27,7 @@ public class Order {
     @JsonIgnore
     private User user;
 
+    @Column(nullable = false)
     private LocalDateTime createdAt;
 
     @Column(nullable = false)

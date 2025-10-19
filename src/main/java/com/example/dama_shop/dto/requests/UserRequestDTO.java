@@ -25,6 +25,6 @@ public class UserRequestDTO {
     @NotBlank
     private String role;
 
-    List<OrderDTO> orders;
+    private List<OrderDTO> orders;
 
 }
